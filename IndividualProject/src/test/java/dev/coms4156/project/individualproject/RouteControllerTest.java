@@ -23,11 +23,40 @@ class RouteControllerTest {
 
   private MockApiService mockApiService;
   private RouteController routeController;
+  private ArrayList<Book> testBooks;
 
   @BeforeEach
   void setUp() {
     mockApiService = mock(MockApiService.class);
     routeController = new RouteController(mockApiService);
+    testBooks = new ArrayList<>();
+    testBooks.add(new Book("Frankenstein", 1));
+    testBooks.add(new Book("Wuthering Heights", 2));
+    testBooks.add(new Book("Pride and Prejudice", 3));
+    testBooks.add(new Book("1984", 4));
+    testBooks.add(new Book("To Kill a Mockingbird", 5));
+    testBooks.add(new Book("The Great Gatsby", 6));
+    testBooks.add(new Book("Moby Dick", 7));
+    testBooks.add(new Book("Jane Eyre", 8));
+    testBooks.add(new Book("The Catcher in the Rye", 9));
+    testBooks.add(new Book("The Hobbit", 10));
+    testBooks.add(new Book("Crime and Punishment", 11));
+    testBooks.add(new Book("War and Peace", 12));
+    testBooks.add(new Book("The Odyssey", 13));
+    testBooks.add(new Book("The Brothers Karamazov", 14));
+    testBooks.add(new Book("Brave New World", 15));
+
+    for (Book b : testBooks) {
+      //b.setTotalCopies(10); // set total copies to 10
+
+      // Simulate amount of times checked out (for testing popularity)
+      int checkouts = b.getId();
+      for (int i = 0; i < checkouts; i++) {
+        b.addCopy();
+        b.checkoutCopy();
+      }
+    }
+
   }
 
   @Test
@@ -80,5 +109,39 @@ class RouteControllerTest {
     ResponseEntity<?> response = routeController.addCopy(123);
 
     assertEquals(404, response.getStatusCodeValue());
+  }
+
+  @Test
+  void getRecommendedBooksReturnsBooks() {
+    // Arrange
+    when(mockApiService.getBooks()).thenReturn(testBooks);
+
+    // Act
+    ResponseEntity<?> response = routeController.getRecommendedBooks();
+
+    @SuppressWarnings("unchecked")
+    ArrayList<Book> recommended = (ArrayList<Book>) response.getBody();
+
+    //Print recommended
+    System.out.println("Recommended books:");
+    for (Book b : recommended) {
+      System.out.println(b.getTitle() + " - Checked out: " + b.getAmountOfTimesCheckedOut());
+    }
+
+    // Assert
+    assertEquals(200, response.getStatusCodeValue());
+
+
+
+    // Check that the first 5 are the most popular
+
+
+    // Check total size
+    assertTrue(recommended.size() <= 10);
+
+
+    for (int i = 0; i < 5; i++) {
+      assertEquals(15 - i, recommended.get(i).getAmountOfTimesCheckedOut());
+    }
   }
 }
