@@ -56,10 +56,10 @@ public class BookUnitTests {
   @Test
   public void deleteCopyTest() {
     book.setTotalCopies(1);
+    assertTrue(book.deleteCopy());
     assertFalse(book.deleteCopy());
-    assertTrue(book.deleteCopy());
     book.setTotalCopies(0);
-    assertTrue(book.deleteCopy());
+    assertFalse(book.deleteCopy());
   }
 
   @Test
