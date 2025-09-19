@@ -25,13 +25,27 @@ public class MockApiServiceTest {
     ArrayList<Book> testBooks = new ArrayList<>();
     testBooks.add(new Book("Frankenstein", 1));
     testBooks.add(new Book("Wuthering Heights", 2));
+    testBooks.add(new Book("Pride and Prejudice", 3));
+    testBooks.add(new Book("1984", 4));
+    testBooks.add(new Book("To Kill a Mockingbird", 5));
+    testBooks.add(new Book("The Great Gatsby", 6));
+    testBooks.add(new Book("Moby Dick", 7));
+    testBooks.add(new Book("Jane Eyre", 8));
+    testBooks.add(new Book("The Catcher in the Rye", 9));
+    testBooks.add(new Book("The Hobbit", 10));
+    testBooks.add(new Book("Crime and Punishment", 11));
+    testBooks.add(new Book("War and Peace", 12));
+    testBooks.add(new Book("The Odyssey", 13));
+    testBooks.add(new Book("The Brothers Karamazov", 14));
+    testBooks.add(new Book("Brave New World", 15));
+
     service.getBooks().clear();
     service.getBooks().addAll(testBooks);
   }
 
   @Test
   void testGetBooks() {
-    assertEquals(2, service.getBooks().size());
+    assertEquals(15, service.getBooks().size());
   }
 
   @Test
@@ -45,7 +59,7 @@ public class MockApiServiceTest {
   void testUpdateBookNonExisting() {
     Book nonExistingBook = new Book("Jane Eyre", 99);
     service.updateBook(nonExistingBook);
-    assertEquals(2, service.getBooks().size());
+    assertEquals(15, service.getBooks().size());
   }
 
   @Test

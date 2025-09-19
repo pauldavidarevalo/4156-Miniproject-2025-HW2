@@ -3,6 +3,9 @@ package dev.coms4156.project.individualproject.controller;
 import dev.coms4156.project.individualproject.model.Book;
 import dev.coms4156.project.individualproject.service.MockApiService;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.Set;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -71,6 +74,45 @@ public class RouteController {
       System.err.println(e);
       return new ResponseEntity<>("Error occurred when getting all available books",
           HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  /**
+   * Returns a list of recommended books.
+   *
+   * @return A {@code ResponseEntity} containing a list of recommended {@code Book} objects with an
+   *         HTTP 200 response if sucessful, or a message indicating an error occurred with an
+   *         HTTP 500 response.
+   */
+  @GetMapping({"/books/recommendation"})
+  public ResponseEntity<?> getRecommendedBooks() {
+    try {
+      ArrayList<Book> books = new ArrayList<>(mockApiService.getBooks());
+      ArrayList<Book> recommendedBooks = new ArrayList<>();
+      books.sort(
+              Comparator.comparingInt(Book::getAmountOfTimesCheckedOut).reversed()
+      );
+      int limit = Math.min(5, books.size());
+      for (int i = 0; i < limit; i++) {
+        recommendedBooks.add(books.get(i));
+      }
+
+      Set<Integer> usedIndices = new HashSet<>();
+      while (usedIndices.size() < 5 && recommendedBooks.size() < books.size()) {
+        int i = (int)(Math.random() * books.size());
+        Book candidate = books.get(i);
+
+        if (!recommendedBooks.contains(candidate)) {
+          recommendedBooks.add(candidate);
+          usedIndices.add(i);
+        }
+      }
+
+      return new ResponseEntity<>(recommendedBooks, HttpStatus.OK);
+    } catch (Exception e) {
+      System.err.println(e);
+      return new ResponseEntity<>("Error occurred when getting recommended books",
+              HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
