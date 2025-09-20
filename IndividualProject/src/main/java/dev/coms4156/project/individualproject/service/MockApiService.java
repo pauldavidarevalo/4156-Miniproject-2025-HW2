@@ -43,14 +43,6 @@ public class MockApiService {
   }
 
   /**
-   * Sorts list of books by popularity, grabs the top 5 books and 5 more randomly selected
-   * books and puts them in a array list.
-   *
-   * @return an array list of recommendedBooks.
-   */
-
-
-  /**
    * Updates the stored list of books by replacing the existing book that matches the given
    * {@code newBook} with the updated version.
    *
