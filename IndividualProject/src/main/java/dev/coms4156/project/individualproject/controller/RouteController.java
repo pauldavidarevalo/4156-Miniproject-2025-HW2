@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * This class contains all the API routes for the application.
@@ -101,7 +101,7 @@ public class RouteController {
 
       Set<Integer> usedIndices = new HashSet<>();
       while (usedIndices.size() < 5 && recommendedBooks.size() < books.size()) {
-        int i = (int)(Math.random() * books.size());
+        int i = (int) (Math.random() * books.size());
         Book candidate = books.get(i);
 
         if (!recommendedBooks.contains(candidate)) {
@@ -143,13 +143,15 @@ public class RouteController {
 
       String dueDate = target.checkoutCopy();
       if (dueDate == null) {
-        return new ResponseEntity<>("No available copies of Book with ID " + id + ".", HttpStatus.CONFLICT);
+        return new ResponseEntity<>("No available copies of Book with ID " + id + ".",
+                HttpStatus.CONFLICT);
       }
       mockApiService.updateBook(target);
       return new ResponseEntity<>(target, HttpStatus.OK);
 
     } catch (Exception e) {
-      return new ResponseEntity<>("An error occurred while checking out the book.", HttpStatus.INTERNAL_SERVER_ERROR);
+      return new ResponseEntity<>("An error occurred while checking out the book.",
+              HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 

@@ -129,8 +129,9 @@ class RouteControllerTest {
       assertEquals(15 - i, recommended.get(i).getAmountOfTimesCheckedOut());
     }
   }
+
   @Test
-  void checkoutBookSystem(){
+  void checkoutBookSystem() {
     when(mockApiService.getBooks()).thenReturn(testBooks);
     int targetId = 25;
     ResponseEntity<?> response = routeController.checkoutBook(targetId);
