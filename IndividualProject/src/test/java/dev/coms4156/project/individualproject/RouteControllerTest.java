@@ -113,35 +113,33 @@ class RouteControllerTest {
 
   @Test
   void getRecommendedBooksReturnsBooks() {
-    // Arrange
     when(mockApiService.getBooks()).thenReturn(testBooks);
-
-    // Act
     ResponseEntity<?> response = routeController.getRecommendedBooks();
 
     @SuppressWarnings("unchecked")
     ArrayList<Book> recommended = (ArrayList<Book>) response.getBody();
 
-    //Print recommended
     System.out.println("Recommended books:");
     for (Book b : recommended) {
       System.out.println(b.getTitle() + " - Checked out: " + b.getAmountOfTimesCheckedOut());
     }
-
-    // Assert
     assertEquals(200, response.getStatusCodeValue());
-
-
-
-    // Check that the first 5 are the most popular
-
-
-    // Check total size
     assertTrue(recommended.size() <= 10);
-
-
     for (int i = 0; i < 5; i++) {
       assertEquals(15 - i, recommended.get(i).getAmountOfTimesCheckedOut());
     }
+  }
+  @Test
+  void checkoutBookSystem(){
+    when(mockApiService.getBooks()).thenReturn(testBooks);
+    int targetId = 25;
+    ResponseEntity<?> response = routeController.checkoutBook(targetId);
+    assertEquals(HttpStatus.NOT_FOUND.value(), response.getStatusCodeValue());
+    targetId = 1;
+    response = routeController.checkoutBook(targetId);
+    assertEquals(200, response.getStatusCodeValue());
+    response = routeController.checkoutBook(targetId);
+    assertEquals(409, response.getStatusCodeValue());
+
   }
 }

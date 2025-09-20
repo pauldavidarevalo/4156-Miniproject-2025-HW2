@@ -11,7 +11,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * This class contains all the API routes for the application.
@@ -116,7 +118,40 @@ public class RouteController {
     }
   }
 
+  /**
+   * Updates the information of a target book with checkoutCopy() then updates the books
+   * array list in MockApiService.java using updateBook()
+   *
+   * @param id of a book to update its check out information.
+   *
+   */
+  @PostMapping("/checkout")
+  public ResponseEntity<?> checkoutBook(@RequestParam("id") int id) {
+    try {
+      ArrayList<Book> books = new ArrayList<>(mockApiService.getBooks());
+      Book target = null;
+      for (Book b : books) {
+        if (b.getId() == id) {
+          target = b;
+          break;
+        }
+      }
 
+      if (target == null) {
+        return new ResponseEntity<>("Book with ID " + id + " not found.", HttpStatus.NOT_FOUND);
+      }
+
+      String dueDate = target.checkoutCopy();
+      if (dueDate == null) {
+        return new ResponseEntity<>("No available copies of Book with ID " + id + ".", HttpStatus.CONFLICT);
+      }
+      mockApiService.updateBook(target);
+      return new ResponseEntity<>(target, HttpStatus.OK);
+
+    } catch (Exception e) {
+      return new ResponseEntity<>("An error occurred while checking out the book.", HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
 
   /**
    * Adds a copy to the {@code} Book object if it exists.
