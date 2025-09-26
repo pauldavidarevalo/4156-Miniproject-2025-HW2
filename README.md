@@ -47,7 +47,7 @@ mvn spring-boot:run
 ---
 
 ## Running the Application
-Once the project is running, you can access the API endpoints using a browser, Postman, or `curl`. By default, Spring Boot runs on `http://localhost:8080`.
+Once the project is running, you can access the API endpoints using a browser, Postman, or cur`. By default, Spring Boot runs on http://localhost:8080.
 
 Example:
 
@@ -76,9 +76,9 @@ This project uses **JUnit 5** for unit testing. To run all tests:
 
 mvn test
 
-- `RouteControllerTest` covers all REST API logic  
-- `MockApiServiceTest` covers service layer logic  
-- `BookUnitTests` covers all Book model methods  
+- RouteControllerTest covers all REST API logic  
+- MockApiServiceTest covers service layer logic  
+- BookUnitTests covers all Book model methods  
 
 ---
 
@@ -90,14 +90,14 @@ Run static code analysis using PMD:
 mvn pmd:check
 
 - PMD will flag any code issues based on the configured rules.  
-- Reports can be found under `target/site/pmd.html`.
+- Reports can be found under target/site/pmd.html.
 
 ### JaCoCo
 Generate code coverage reports:
 
 mvn jacoco:report
 
-- Reports are located at `target/site/jacoco/index.html`  
+- Reports are located at target/site/jacoco/index.html  
 - This shows line and branch coverage for all tested classes.
 
 ---
@@ -106,7 +106,7 @@ mvn jacoco:report
 
 ## Notes
 The project uses a mock dataset; no real database is required.  
-`MockApiService` reads from `resources/mockdata/books.json` if available, otherwise initializes an empty list.  
+MockApiService` reads from `resources/mockdata/books.json if available, otherwise initializes an empty list.  
 API returns standard HTTP status codes for success, not found, or conflicts.  
 
 
