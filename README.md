@@ -13,7 +13,7 @@ This is a Spring Boot project that simulates a simple library system. It provide
 6. [Code Quality & Coverage](#code-quality--coverage)   
 7. [Notes](#notes)
 
----
+
 
 ## Prerequisites
 Before running this project locally, ensure you have the following installed:
@@ -22,7 +22,7 @@ Before running this project locally, ensure you have the following installed:
 - Maven 3.8 or higher  
 - Git (optional, if cloning from a remote repository)  
 
----
+
 
 ## Setup
 1. Clone the repository (or download the source code):
@@ -44,7 +44,7 @@ bash
 mvn spring-boot:run
 
 
----
+
 
 ## Running the Application
 Once the project is running, you can access the API endpoints using a browser, Postman, or cur`. By default, Spring Boot runs on http://localhost:8080.
@@ -56,7 +56,7 @@ curl http://localhost:8080/
 
 You should see the home page welcome message.
 
----
+
 
 ## API Endpoints
 
@@ -69,7 +69,7 @@ You should see the home page welcome message.
 | /checkout?id={bookId} | POST | Checks out a copy of a book by ID |
 | /book/{bookId}/add | PATCH | Adds a copy to the book with the specified ID |
 
----
+
 
 ## Running Tests
 This project uses **JUnit 5** for unit testing. To run all tests:
@@ -80,7 +80,7 @@ mvn test
 - MockApiServiceTest covers service layer logic  
 - BookUnitTests covers all Book model methods  
 
----
+
 
 ## Code Quality & Coverage
 
@@ -99,10 +99,6 @@ mvn jacoco:report
 
 - Reports are located at target/site/jacoco/index.html  
 - This shows line and branch coverage for all tested classes.
-
----
-
-
 
 ## Notes
 The project uses a mock dataset; no real database is required.  
