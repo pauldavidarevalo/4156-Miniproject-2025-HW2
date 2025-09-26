@@ -40,9 +40,9 @@ mvn clean install
 
 3. (Optional) Run the application directly from Maven:
 
-```bash
+bash
 mvn spring-boot:run
-```
+
 
 ---
 
