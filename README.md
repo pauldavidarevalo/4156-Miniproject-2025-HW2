@@ -27,16 +27,16 @@ Before running this project locally, ensure you have the following installed:
 ## Setup
 1. Clone the repository (or download the source code):
 
-```bash
+
 git clone <repository-url>
 cd individualproject
-```
+
 
 2. Build the project and download dependencies using Maven:
 
-```bash
+
 mvn clean install
-```
+
 
 3. (Optional) Run the application directly from Maven:
 
@@ -51,9 +51,8 @@ Once the project is running, you can access the API endpoints using a browser, P
 
 Example:
 
-```bash
+
 curl http://localhost:8080/
-```
 
 You should see the home page welcome message.
 
@@ -75,9 +74,7 @@ You should see the home page welcome message.
 ## Running Tests
 This project uses **JUnit 5** for unit testing. To run all tests:
 
-```bash
 mvn test
-```
 
 - `RouteControllerTest` covers all REST API logic  
 - `MockApiServiceTest` covers service layer logic  
@@ -90,9 +87,7 @@ mvn test
 ### PMD
 Run static code analysis using PMD:
 
-```bash
 mvn pmd:check
-```
 
 - PMD will flag any code issues based on the configured rules.  
 - Reports can be found under `target/site/pmd.html`.
@@ -100,9 +95,7 @@ mvn pmd:check
 ### JaCoCo
 Generate code coverage reports:
 
-```bash
 mvn jacoco:report
-```
 
 - Reports are located at `target/site/jacoco/index.html`  
 - This shows line and branch coverage for all tested classes.
