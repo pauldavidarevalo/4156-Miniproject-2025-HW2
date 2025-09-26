@@ -4,7 +4,7 @@
 
 This is a Spring Boot project that simulates a simple library system. It provides a set of REST API endpoints to view books, check out books, add copies, and get recommended books. The project includes unit tests, code coverage reporting, and static analysis.
 
-## Table of Contents
+# Table of Contents
 1. [Prerequisites](#prerequisites)  
 2. [Setup](#setup)  
 3. [Running the Application](#running-the-application)  
