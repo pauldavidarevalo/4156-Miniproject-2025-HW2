@@ -62,12 +62,12 @@ You should see the home page welcome message.
 
 | Endpoint | Method | Description |
 |----------|--------|-------------|
-| `/` or `/index` | GET | Returns a welcome message |
-| `/book/{id}` | GET | Returns the book with the specified ID |
-| `/books/available` | GET | Returns all books that have at least one copy available |
-| `/books/recommendation` | GET | Returns a list of recommended books (top 5 by popularity + random books) |
-| `/checkout?id={bookId}` | POST | Checks out a copy of a book by ID |
-| `/book/{bookId}/add` | PATCH | Adds a copy to the book with the specified ID |
+| / or /index | GET | Returns a welcome message |
+| /book/{id} | GET | Returns the book with the specified ID |
+| /books/available | GET | Returns all books that have at least one copy available |
+| /books/recommendation | GET | Returns a list of recommended books (top 5 by popularity + random books) |
+| /checkout?id={bookId} | POST | Checks out a copy of a book by ID |
+| /book/{bookId}/add | PATCH | Adds a copy to the book with the specified ID |
 
 ---
 
@@ -106,7 +106,7 @@ mvn jacoco:report
 
 ## Notes
 The project uses a mock dataset; no real database is required.  
-MockApiService` reads from `resources/mockdata/books.json if available, otherwise initializes an empty list.  
+MockApiService reads from resources/mockdata/books.json if available, otherwise initializes an empty list.  
 API returns standard HTTP status codes for success, not found, or conflicts.  
 
 
