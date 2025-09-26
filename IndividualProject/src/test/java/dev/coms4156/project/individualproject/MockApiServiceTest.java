@@ -5,10 +5,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import dev.coms4156.project.individualproject.model.Book;
 import dev.coms4156.project.individualproject.service.MockApiService;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.mockito.Mockito;
 
 
 /**
@@ -67,4 +70,57 @@ public class MockApiServiceTest {
     service.printBooks();
     assertTrue(service.getBooks().size() > 0);
   }
+
+  @Test
+  void constructorHandlesParsingException() throws Exception {
+
+    InputStream is = new ByteArrayInputStream("malformed json".getBytes());
+
+    ClassLoader originalLoader = Thread.currentThread().getContextClassLoader();
+    ClassLoader mockLoader = Mockito.mock(ClassLoader.class);
+    Mockito.when(mockLoader.getResourceAsStream("mockdata/books.json")).thenReturn(is);
+
+    Thread.currentThread().setContextClassLoader(mockLoader);
+
+    MockApiService service = new MockApiService();
+
+    assertTrue(service.getBooks() == null || service.getBooks().isEmpty());
+
+
+    Thread.currentThread().setContextClassLoader(originalLoader);
+  }
+
+  @Test
+  void constructorLoadsBooksSuccessfully() throws Exception {
+
+    String json = "[{\"title\":\"Test Book\",\"id\":1}]";
+    InputStream is = new ByteArrayInputStream(json.getBytes());
+
+    ClassLoader originalLoader = Thread.currentThread().getContextClassLoader();
+    ClassLoader mockLoader = Mockito.mock(ClassLoader.class);
+    Mockito.when(mockLoader.getResourceAsStream("mockdata/books.json")).thenReturn(is);
+
+    Thread.currentThread().setContextClassLoader(mockLoader);
+
+    MockApiService service = new MockApiService();
+    assertEquals(1, service.getBooks().size());
+    assertEquals("Test Book", service.getBooks().get(0).getTitle());
+
+
+    Thread.currentThread().setContextClassLoader(originalLoader);
+  }
+
+  @Test
+  void constructorHandlesMissingFile() {
+    ClassLoader originalLoader = Thread.currentThread().getContextClassLoader();
+    ClassLoader mockLoader = Mockito.mock(ClassLoader.class);
+    Mockito.when(mockLoader.getResourceAsStream("mockdata/books.json")).thenReturn(null);
+    Thread.currentThread().setContextClassLoader(mockLoader);
+
+    MockApiService service = new MockApiService();
+    assertTrue(service.getBooks().isEmpty());
+
+    Thread.currentThread().setContextClassLoader(originalLoader);
+  }
+
 }
