@@ -3,6 +3,7 @@ package dev.coms4156.project.individualproject;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -141,5 +142,55 @@ class RouteControllerTest {
     response = routeController.checkoutBook(targetId);
     assertEquals(409, response.getStatusCodeValue());
 
+  }
+  @Test
+  void getAvailableBooksHandlesException() {
+    MockApiService mockService = mock(MockApiService.class);
+    doThrow(new RuntimeException("fail")).when(mockService).getBooks();
+
+    RouteController controller = new RouteController(mockService);
+    ResponseEntity<?> response = controller.getAvailableBooks();
+
+    assertEquals(HttpStatus.INTERNAL_SERVER_ERROR.value(), response.getStatusCodeValue());
+  }
+  @Test
+  void checkoutBookHandlesException() {
+    MockApiService mockService = mock(MockApiService.class);
+    doThrow(new RuntimeException("fail")).when(mockService).getBooks();
+
+    RouteController controller = new RouteController(mockService);
+    ResponseEntity<?> response = controller.checkoutBook(1);
+
+    assertEquals(HttpStatus.INTERNAL_SERVER_ERROR.value(), response.getStatusCodeValue());
+  }
+
+  @Test
+  void addCopyHandlesException() {
+    MockApiService mockService = mock(MockApiService.class);
+    doThrow(new RuntimeException("fail")).when(mockService).getBooks();
+
+    RouteController controller = new RouteController(mockService);
+    ResponseEntity<?> response = controller.addCopy(1);
+
+    assertEquals(HttpStatus.INTERNAL_SERVER_ERROR.value(), response.getStatusCodeValue());
+  }
+  @Test
+  void getAvailableBooksReturnsOnlyBooksWithCopies() {
+    Book book1 = new Book(); book1.setTotalCopies(0); // no copies
+    Book book2 = new Book(); book2.setTotalCopies(1); // has copies
+    ArrayList<Book> books = new ArrayList<>();
+    books.add(book1);
+    books.add(book2);
+
+    MockApiService mockService = mock(MockApiService.class);
+    when(mockService.getBooks()).thenReturn(books);
+
+    RouteController controller = new RouteController(mockService);
+    ResponseEntity<?> response = controller.getAvailableBooks();
+
+    assertEquals(HttpStatus.OK.value(), response.getStatusCodeValue());
+    ArrayList<Book> available = (ArrayList<Book>) response.getBody();
+    assertEquals(2, available.size());
+    assertEquals(book2, available.get(0));
   }
 }
