@@ -133,4 +133,32 @@ public class BookUnitTests {
     assertNotNull(book.getReturnDates());
   }
 
+  @Test
+  void hasCopiesTest() {
+    Book book = new Book("Call of the Wild", 2);
+    assertTrue(book.hasCopies());
+    book.deleteCopy();
+    assertFalse(book.hasCopies());
+
+    book.addCopy();
+    assertTrue(book.hasCopies());
+  }
+
+  @Test
+  void fullConstructorTest() {
+    ArrayList<String> authors = new ArrayList<>();
+    authors.add("Author1");
+    ArrayList<String> subjects = new ArrayList<>();
+    subjects.add("Subject1");
+
+    Book fullBook = new Book("Title", authors, "English", "Shelf1",
+            "2025-01-01", "Publisher", subjects,
+            99, 5, 10);
+
+    assertEquals("Title", fullBook.getTitle());
+    assertEquals(5, fullBook.getCopiesAvailable());
+    assertEquals(10, fullBook.getTotalCopies());
+  }
+
+
 }
